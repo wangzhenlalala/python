@@ -19,6 +19,18 @@ class Prime:
             else:
                 return self.__next__()
 
-test = Prime(999)
-for i in test:
+# test = Prime(999)
+# for i in test:
+#     print(i)
+
+## generator style
+def GenPrime(max):
+    number = 1
+    while number < max:
+        number+=1
+        if isPrime(number):
+            yield number
+
+gen_prime = GenPrime(999)
+for i in gen_prime:
     print(i)

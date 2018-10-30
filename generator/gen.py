@@ -5,8 +5,10 @@ def flatten(nested):
         for sublist in nested:
             for element in flatten(sublist):
                 ##这里的语句会被执行吗
+                print('element',element)
                 yield element
     except TypeError:
+        print('nested', nested)
         yield nested
 
 def error():
@@ -20,4 +22,9 @@ def error():
             except:
                     print('no')
             time+=1
-error()
+# error()
+
+lies = [1,2,[3,4]]
+gen = flatten(lies)
+for i in gen:
+    print('print', i)
