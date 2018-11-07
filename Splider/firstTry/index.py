@@ -20,8 +20,10 @@ def craw(url, page):
     result2 = img_re.findall(result1)
     index = 1
     for item in result2:
-        print(item[0])
-        request.urlretrieve("http:"+item[0])
+        # print(item[0])
+        #只能指定文件名 bane.jpg; 不能带有目录名 pic/dir2/a.jpg 不可以; 如果带目录路径要提前存在
+        filename, xx = request.urlretrieve("http:"+item[0], './pic/' + str(index) +  '.' + item[1]) 
+        print(filename)
         index = index + 1
 if __name__ == '__main__':
     url = "https://list.jd.com/list.html?cat=9987,653,655&page=1&sort=sort_rank_asc&trans=1&JL=6_0_0#J_main"
