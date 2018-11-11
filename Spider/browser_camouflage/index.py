@@ -37,7 +37,7 @@ cookie_file_path = current_dir +cookie_filename
 
 cookiejar = http.cookiejar.LWPCookieJar(cookie_file_path)
 cookiejar.load(cookie_file_path, ignore_discard=True, ignore_expires=True)
-# cookiejar.load(filename="./cookie.txt")
+cookiejar.load(filename="./cookie.txt")
 # print(cookiejar)
 cookie_handler = urllib.request.HTTPCookieProcessor(cookiejar)
 
@@ -59,7 +59,7 @@ for item in cookiejar:
                                  # Set-Cookie: name=wangzhen; path=/ domian=.wangzhen.com; max-age=300
                                  # Set-Cookie :age=26; expires=Sun, 10-Nov-19 15:04:49 GMT; path=/; domain=.realpython.com; HttpOnly
 
-# cookiejar.save(ignore_discard=True, ignore_expires=True) ##初次获取cookie后保存在本地
+cookiejar.save(ignore_discard=True, ignore_expires=True) ##初次获取cookie后保存在本地
 
 
 '''
