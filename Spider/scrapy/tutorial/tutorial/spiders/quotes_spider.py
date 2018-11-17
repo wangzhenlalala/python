@@ -10,6 +10,9 @@
         scrapy shell url and play with response
     how to store data:
         scrapy crawl spider-name -o quotes.json (easiest way) called [Feed exports]
+    how to pass arguments to spider:
+        scrapy crawl quotes -o quotes-humor.json -a tag=humor
+        ## arguments are passed to the Spider’s __init__ method and become spider attributes by default.
 '''
 import scrapy
 
@@ -21,12 +24,16 @@ class QuotesSpider(scrapy.Spider):
         (you can return a list of requests or write a generator function) 
         which the Spider will begin to crawl from.
         '''
-        urls = [
-            "http://quotes.toscrape.com/page/1/",
-            "http://quotes.toscrape.com/page/2/"
-        ]
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
+        url = "http://quotes.toscrape.com/" ## you can visit this site to get all tags
+                                            ## [ love, life , humor, books, reading, ...]
+        tag = getattr(self, 'tag', 'love')
+        url = url + 'tag/' + tag
+        yield scrapy.Request(url, self.parse)
+        # urls = [
+        #     "http://quotes.toscrape.com/page/1/"
+        # ]
+        # for url in urls:
+        #     yield scrapy.Request(url=url, callback=self.parse)
     
     def parse(self, response):
         '''
@@ -44,4 +51,17 @@ class QuotesSpider(scrapy.Spider):
             author = quote.css('small.author::text').extract_first()
             tags = quote.css('div.tags a.tag::text').extract()
             yield dict(text=text, author=author, tags=tags)
-
+        
+        '''
+        What you see here is Scrapy’s mechanism of [[following links]]: 
+        when you yield a Request in a callback method, 
+        Scrapy will schedule that request to be sent and register a callback method 
+        to be executed when that request finishes.
+        '''
+        next_page = response.css('li.next a::attr(href)').extract_first()
+        if next_page is not None:
+            # next_page = response.urljoin(next_page) ## builds a full absolute URL
+            # yield scrapy.Request(next_page, callback=self.parse)
+            ##### below is a shortcut to yield a request
+            ##### response.follow supports relative URLs directly-no need to call urljoin
+            yield response.follow(next_page, callback=self.parse) 
