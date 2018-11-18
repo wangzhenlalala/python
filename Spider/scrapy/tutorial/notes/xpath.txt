@@ -1,4 +1,4 @@
-XPath： 7中节点
+XPath： 7种节点
     a. 元素 <person></person>
     b. 属性 id="33" or name="wangzhen"
     c. 文本 hello world
@@ -86,3 +86,11 @@ XPath 运算符
 18. Ancestor-or-self axis
     /AAA/XXX/DDD/EEE/ancestor-or-self::*
 19. /bookstore/book/price/text()
+
+
+with scrapy Xpath :
+    sel.xpath('//li[re:test(@class, "item-\d$")]//@href').extract()
+
+res.css('div.co_content8')
+Selector xpath="descendant-or-self::div[@class and contains(concat(' ', normalize-space(@class), ' '), ' co_content8 ')]
+第一次爬取了电影天堂的电影数据， 浏览器中看到的html结构，和爬来的结构不一样
