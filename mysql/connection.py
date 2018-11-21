@@ -1,6 +1,25 @@
 import mysql.connector
 from mysql.connector import Error
 
+def insert_single(cursor):
+    sql_insert_query = '''
+        INSERT INTO member
+        (name, age, gender) VALUES ('itachi', 25, 'male')
+    '''
+    cursor.execute(sql_insert_query);
+
+def insert_multiple(cursor):
+    datas = [
+        ('wukong', 22, 'male'),
+        ('bajie', 23, 'female'),
+        ('wujing', 24, 'male')
+    ]
+    sql_insert_query = '''
+        INSERT INTO member (name, age, gender) VALUES (%s, %s, %s)
+    '''
+    result = cursor.executemany(sql_insert_query, datas)
+    print(result)
+
 try:
     connection = mysql.connector.connect(
         host='localhost',
@@ -9,14 +28,14 @@ try:
         password='wangzhen'
     )
     if connection.is_connected():
-        db_info = connection.get_server_info()
-        print('connected to Mysql database...Mysql Server version on', db_info)
-        sql_insert_query = '''
-            INSERT INTO member
-            (name, age, gender) VALUES ('itachi', 25, 'male')
-        '''
+        # cursor = connection.cursor()
+        # insert_single(cursor)
+
+        # cursor = connection.cursor(prepared=True)
         cursor = connection.cursor()
-        cursor.execute(sql_insert_query)
+        # cursor = connection.MySQLCursorPrepared()
+        insert_multiple(cursor)
+
         connection.commit()
         print("Record inserted successfully into member table")
 except Error as e:
