@@ -1,3 +1,6 @@
+##### urllib.error.URLError: <urlopen error [WinError 10061] 由于目标计算机积极拒绝，无法连接。>
+
+
 import urllib.request
 import urllib.error
 import http.cookiejar
@@ -49,7 +52,11 @@ opener = urllib.request.build_opener(proxy_handler, cookie_handler)
 opener.addheaders = headers_list_tuple ## opener.addheaders = [(key,value), (key1, value1)]
                                        ## opener.addheaders.append(('Cookie', 'cookiename=cookievalue'))
                                        ## Request.add_header(key, val)
-reponse = opener.open(url3)
+
+request = urllib.request.Request(url2) ## 添加method
+                                       ## Request(url, data, headers=headers, method=method)
+                                       ## request.get_method = lambda: 'PUT'
+reponse = opener.open(request)
 # print(file.read(80).decode())
 
 for item in cookiejar:
