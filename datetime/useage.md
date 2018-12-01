@@ -17,6 +17,13 @@ class:
         * .utcoffset() 如果是一个aware => timedelta()
         * .replace(hour,second, year,tzinfo)
             * 修改当前的对象，生成一个新的对象
+        * tzname
+        * time()
+        * date()
+        * timetz()
+        * weekday() || isoweekday()
+        * isoformat()
+        * strftime(format-string)
 * date
 * time
 * tzinfo
