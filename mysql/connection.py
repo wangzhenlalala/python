@@ -1,5 +1,7 @@
 import mysql.connector
 from mysql.connector import Error
+from mysql.connector.cursor import MySQLCursorPrepared
+
 
 def insert_single(cursor):
     sql_insert_query = '''
@@ -58,11 +60,11 @@ try:
         # insert_single(cursor)
 
         # cursor = connection.cursor(prepared=True)
-        cursor = connection.cursor()
+        cursor = connection.cursor(cursor_class=MySQLCursorPrepared) ## prepared statement or parameterized query
         # cursor = connection.MySQLCursorPrepared()
         # insert_multiple(cursor)
         # select_table(cursor)
-        exec_procedure(cursor)
+        # exec_procedure(cursor)
         connection.commit()
 except Error as e:
     connection.rollback() # #rollback if any exception occured
