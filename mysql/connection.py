@@ -56,6 +56,7 @@ try:
         password='wangzhen'
     )
     if connection.is_connected():
+        connection.autocommit = false
         # cursor = connection.cursor()
         # insert_single(cursor)
 
